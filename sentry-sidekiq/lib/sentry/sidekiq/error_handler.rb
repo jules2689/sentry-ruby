@@ -6,8 +6,11 @@ module Sentry
       SIDEKIQ_NAME = "Sidekiq".freeze
 
       def call(ex, context)
+        Rails.logger.info "I am here 1"
         return unless Sentry.initialized?
+        Rails.logger.info "I am here 2"
         context = Sentry::Sidekiq::ContextFilter.new.filter_context(context)
+        Rails.logger.info "I am here 3 #{context}"
         scope = Sentry.get_current_scope
         scope.set_transaction_name(transaction_from_context(context)) unless scope.transaction_name
 
